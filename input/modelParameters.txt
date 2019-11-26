@@ -1,0 +1,13 @@
+SEED 32145
+nrOfSteps 1000000
+maxNeighbours 100
+nrOfSites 512
+rCutOff 20
+nrOfParticles 1
+Xmax 67.821
+v0 10000
+alpha 0.15
+kBT 0.026
+DOS_mu 1.5
+DOS_sigma 0.1
+E_Field 0.0
