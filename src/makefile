@@ -16,7 +16,7 @@ _DEPS = functions.h main.h modelParameters.h variables.h
 DEPS = $(patsubst %,$(IDIR)/%,$(_DEPS))
 
 # All objects that need to be created (for every .c-file we include a .o-file here)
-_OBJ = functions.o initialize.o main.o memory.o mersenneTwister.o outputManager.o
+_OBJ = functions.o initialize.o main.o memoryManager.o mersenneTwister.o outputManager.o
 OBJ = $(patsubst %,$(ODIR)/%,$(_OBJ))
 
 # Check for dependecies

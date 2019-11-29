@@ -16,4 +16,8 @@
 
 #include "modelParameters.h"
 
+#define ELECTRON 0
+#define HOLE     1
+#define EXCITON  2
+
 

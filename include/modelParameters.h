@@ -16,17 +16,19 @@ extern int nrOfSteps;
 extern int maxNeighbours;
 extern int nrOfSites;
 extern double rCutOff;
-extern int nrOfParticles;
-extern double Xmax;
+extern int nrOfpTypes;
+extern double* DOS_mu;
+extern double* DOS_sigma;
+extern int* nrOfParticlesOfType;
+extern double* chargeOfType;
+
+extern int nrOfParticles; // computed by program does not need to be defined in modelParameters.txt
+extern double maxXYZ[3];
 
 /* Miller-Abrahams Rate */
 extern double v0;
 extern double alpha;
 extern double kBT;
-
-/* Density of States */
-extern double DOS_mu;
-extern double DOS_sigma;
 
 /* Electric Field */
 extern double E_Field;

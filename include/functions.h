@@ -22,14 +22,17 @@ extern void outputManager_experiment(void);
 extern void outputManager_mobility(void);
 
 /* Memory Managing */
+extern void alloc_memory_parameter_reading(void);
+extern void free_memory_parameter_reading(void);
 extern void alloc_memory(void);
 extern void free_memory(void);
 
 /* Auxiliary Functions */
-extern double hopRate(double dist, double distX, double energy1, double energy2);
+extern double hopRate(double dist, double distX, double charge, double energy1, double energy2);
 extern double norm2(double dx, double dy, double dz);
 extern double distance_PBC_3D(double a[], double b[]);
-extern double correctedPBC_1D(double dx);
+extern double distance_PBC_3D_noX(double a[], double b[]);
+extern double correctedPBC_1D(double dx, double maxL);
 extern double random_Normal(double m, double s);
 
 /* Random Numbers (from mersenne twister) */
