@@ -4,20 +4,23 @@
  *
  * Author: R.H.J. Gerritsen
  *
- * Created on: 23-11-2019
+ * Created on: 08-01-2020
  * 
  *******************************************************************/
 
+/* Generally used libraries */
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
 #include <string.h>
-#include <complex.h>
+#include "random.h"
 
+/* User defined header files */
 #include "modelParameters.h"
 
-#define ELECTRON 0
-#define HOLE     1
-#define EXCITON  2
-
-
+/* Particle Types */
+#define ELEC 0
+#define HOLE 1
+#define SING 2
+#define TRIP 3
+#define CT   4

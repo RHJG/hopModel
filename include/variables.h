@@ -4,8 +4,8 @@
  *
  * Author: R.H.J. Gerritsen
  *
- * Created on: 23-11-2019
- *
+ * Created on: 08-01-2020
+ * 
  *******************************************************************/
 
 
@@ -28,6 +28,7 @@ extern double* mobility;          // store the mobilities ..
 
 /* State variables */
 extern int* particlePositions;  // 1D-array containing the current sites of the particles particlePositions[pID]
+extern int* particlePositions2;  // 1D-array containing the second site for the CT state, otherwise it is not (and should not be) used
 extern int* particleTypes;      // 1D-array containing the particletype of particle i: particleTypes[pID]
+extern int* particleLevel;      // 1D-array containing the energy level of the particle hence if particle is S_1 then there is a 1 here
 extern double totalTime;        // is what is says
-

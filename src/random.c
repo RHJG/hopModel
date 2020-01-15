@@ -1,4 +1,23 @@
-/*
+/********************************************************************
+ *
+ * KMC MODEL
+ *
+ * Author: R.H.J. Gerritsen
+ *
+ * Created on: 08-01-2020
+ *
+ * "random" contains all functions that are necessary for the
+ * random number generation and drawing from different distributions.
+ * it contains the mersenne twister to draw uniform random variables
+ * and uses this to supply uniform, normal and exponential random variables.
+ * The implementation of the mersenne twister from Nishimura en Matsumoto is
+ * used see the  copyright notice below.
+ *******************************************************************/
+
+
+/********************************************************************
+   COPYRIGHT NOTICE FOR THE MERSENNE TWISTER
+
    A C-program for MT19937, with initialization improved 2002/1/26.
    Coded by Takuji Nishimura and Makoto Matsumoto.
 
@@ -42,8 +61,9 @@
 */
 
 #include <stdio.h>
+#include <math.h>
 
-/* Period parameters */
+/* Period parameters of the Mersenne Twister */
 #define N 624
 #define M 397
 #define MATRIX_A 0x9908b0dfUL   /* constant vector a */
@@ -53,7 +73,12 @@
 static unsigned long mt[N]; /* the array for the state vector  */
 static int mti = N + 1; /* mti==N+1 means mt[N] is not initialized */
 
-/* initializes mt[N] with a seed */
+
+/************************************
+ * UNIFORM RANDOM NUMBER GENERATION
+ ************************************/
+
+/* Set seed of the generator (mt[N]) */
 void init_genrand(unsigned long s)
 {
 	mt[0] = s & 0xffffffffUL;
@@ -67,35 +92,6 @@ void init_genrand(unsigned long s)
 		mt[mti] &= 0xffffffffUL;
 		/* for >32 bit machines */
 	}
-}
-
-/* initialize by an array with array-length */
-/* init_key is the array for initializing keys */
-/* key_length is its length */
-/* slight change for C++, 2004/2/26 */
-void init_by_array(unsigned long init_key[], int key_length)
-{
-	int i, j, k;
-	init_genrand(19650218UL);
-	i = 1; j = 0;
-	k = (N > key_length ? N : key_length);
-	for (; k; k--) {
-		mt[i] = (mt[i] ^ ((mt[i - 1] ^ (mt[i - 1] >> 30)) * 1664525UL))
-			+ init_key[j] + j; /* non linear */
-		mt[i] &= 0xffffffffUL; /* for WORDSIZE > 32 machines */
-		i++; j++;
-		if (i >= N) { mt[0] = mt[N - 1]; i = 1; }
-		if (j >= key_length) j = 0;
-	}
-	for (k = N - 1; k; k--) {
-		mt[i] = (mt[i] ^ ((mt[i - 1] ^ (mt[i - 1] >> 30)) * 1566083941UL))
-			- i; /* non linear */
-		mt[i] &= 0xffffffffUL; /* for WORDSIZE > 32 machines */
-		i++;
-		if (i >= N) { mt[0] = mt[N - 1]; i = 1; }
-	}
-
-	mt[0] = 0x80000000UL; /* MSB is 1; assuring non-zero initial array */
 }
 
 /* generates a random number on [0,0xffffffff]-interval */
@@ -150,7 +146,7 @@ double genrand_real1(void)
 }
 
 /* generates a random number on [0,1)-real-interval */
-double genrand_real2(void)
+double genrand_Real(void)
 {
 	return genrand_int32() * (1.0 / 4294967296.0);
 	/* divided by 2^32 */
@@ -170,3 +166,48 @@ double genrand_res53(void)
 	return(a * 67108864.0 + b) * (1.0 / 9007199254740992.0);
 }
 /* These real versions are due to Isaku Wada, 2002/01/09 added */
+
+
+/************************************
+ * OTHER DISTRIBUTIONS
+ ************************************/
+
+double genrand_Normal(double m, double s) {
+	/************************************************************************************
+	 * Input   : m the mean (mu) and s the standard deviation (sigma) of the normal distribution
+	 * Output  : A random number ~Normal(mu,sigma)
+	 * Procedure: Uses a Box-Muller transform method and a rng to compute a realisation of a normal
+	 ************************************************************************************/
+	double x1, x2, w, y1;
+	static double y2;
+	static int use_last = 0;
+
+	if (use_last)		        /* use value from previous call */
+	{
+		y1 = y2;
+		use_last = 0;
+	}
+	else
+	{
+		do {
+			x1 = 2.0 * genrand_Real() - 1.0;
+			x2 = 2.0 * genrand_Real() - 1.0;
+			w = x1 * x1 + x2 * x2;
+		} while (w >= 1.0);
+
+		w = sqrt((-2.0 * log(w)) / w);
+		y1 = x1 * w;
+		y2 = x2 * w;
+		use_last = 1;
+	}
+	return(m + y1 * s);
+}
+
+double genrand_Exp(double r){
+    /************************************************************************************
+	 * Input   : r the rate parameter of the exponential distribution (note: mean = 1/r)
+	 * Output  : A random number from an exponential distribution with parameter r
+	 * Procedure: Uses a simple log transfrom to obtain an exponentially distributed number.
+	 ************************************************************************************/
+    return(-(1.0 / r) * log(genrand_Real()));
+}

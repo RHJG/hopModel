@@ -1,17 +1,17 @@
 /********************************************************************
  *
- * HOPPING MODEL
+ * KMC MODEL
  *
  * Author: R.H.J. Gerritsen
  *
- * Created on: 23-11-2019
- *
+ * Created on: 08-01-2020
+ * 
+ * The outputManager handles all the output to files. 
  *******************************************************************/
 
 #include "main.h"
 #include "functions.h"
 #include "variables.h"
-
 
 void outputManager_mobility(void) {
 	/* Generates output on the mobilities */

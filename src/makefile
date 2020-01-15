@@ -12,11 +12,11 @@ ODIR=obj
 LIBS=-lm
 
 # All headers 
-_DEPS = functions.h main.h modelParameters.h variables.h
+_DEPS = functions.h main.h modelParameters.h variables.h random.h
 DEPS = $(patsubst %,$(IDIR)/%,$(_DEPS))
 
 # All objects that need to be created (for every .c-file we include a .o-file here)
-_OBJ = functions.o initialize.o main.o memoryManager.o mersenneTwister.o outputManager.o
+_OBJ = eventHandling.o initialize.o main.o memoryManager.o random.o outputManager.o auxiliaryFunctions.o
 OBJ = $(patsubst %,$(ODIR)/%,$(_OBJ))
 
 # Check for dependecies
